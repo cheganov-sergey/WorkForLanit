@@ -4,7 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-
+/**
+ * Страница "Мои резюме"
+ */
 public class MyResume {
 
     private WebDriver driver;

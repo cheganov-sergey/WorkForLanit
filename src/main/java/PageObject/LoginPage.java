@@ -3,6 +3,9 @@ package PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+/**
+ * Страница авторизации пользователя
+ */
 public class LoginPage {
 
     private WebDriver driver;

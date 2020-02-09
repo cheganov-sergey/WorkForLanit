@@ -10,6 +10,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * проверяем корректность заполнения нового резюме
+ */
 public class NewResumeTest {
 
     private static WebDriver driver;
@@ -39,6 +42,9 @@ public class NewResumeTest {
         vait =new WebDriverWait(driver, 5);
     }
 
+    /**
+     * проверям Имя
+     */
     @Test
     public void FirstNameTest() {
         //FirstNameExceptError("");
@@ -50,12 +56,21 @@ public class NewResumeTest {
         FirstName("Иван-Иван");
     }
 
+    /**
+     * Ожидаем ошибку ввода
+     * @param name Имя
+     */
     @Step
     public void FirstNameExceptError (String name) {
             newResume.SetFirstName(name);
             vait.until(ExpectedConditions.visibilityOf(newResume.GetErrorInvalidName()));
             Assert.assertTrue(newResume.GetErrorInvalidName().isDisplayed());
     }
+
+    /**
+     * Валидные данные
+     * @param name Имя
+     */
     @Step
     public void FirstName (String name) {
             newResume.SetFirstName(name);

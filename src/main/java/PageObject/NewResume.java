@@ -6,6 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+/**
+ * Класс страницы создания нового резюме
+ */
 public class NewResume {
 
     private WebDriver driver;
@@ -30,22 +33,40 @@ public class NewResume {
     private By yesExperienceButton = By.xpath("//span[@class='bloko-radio__text'][contains(.,'Есть опыт работы')]");
     private By ExperiencError = By.xpath("(//div[@class='bloko-form-error bloko-form-error_entered'])[1]");
 
-   public NewResume SetFirstName(String name) {
+    /**
+     * задаем имя
+     * @param name  Имя соискателя
+     * @return  текущая страница
+     */
+    public NewResume SetFirstName(String name) {
         driver.findElement(firstName).clear();
         driver.findElement(firstName).sendKeys(name);
         driver.findElement(firstName).sendKeys(Keys.TAB);
         return this;
     }
 
+    /**
+     * проверяем на наличие ошибки при вводе имени
+     * @return вебэлемент с ошибкой
+     */
     public WebElement GetErrorInvalidName() {
        return driver.findElement(firstNameError);
     }
 
+    /**
+     * ввод фамилии
+     * @param name фамилия соискателя
+     * @return  текущая страница
+     */
     public NewResume SetLastName(String name) {
        driver.findElement(lastName).sendKeys(name);
        return this;
     }
 
+    /**
+     * проверка на наличие ошибки при вводе фамилии
+     * @return вэбэлемент с ошибкой
+     */
     public String GetErrorInvalidLastName() {
         return driver.findElement(lastNameError).getText();
     }

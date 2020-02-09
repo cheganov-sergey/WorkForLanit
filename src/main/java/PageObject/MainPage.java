@@ -4,6 +4,9 @@ import PageObject.LoginPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+/**
+ * Шлавная страница hh.ru
+ */
 public class MainPage {
 
     private WebDriver driver;

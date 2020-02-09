@@ -3,6 +3,9 @@ package PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+/**
+ * страница доступная после авторизации пользователя (личный кабинет)
+ */
 public class AccountMainPage {
 
     private WebDriver driver;
