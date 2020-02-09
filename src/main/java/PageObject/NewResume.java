@@ -20,13 +20,13 @@ public class NewResume {
     private By firstName = By.xpath("//input[@name='firstName[0].string']");
     private By firstNameError = By.xpath("//input[contains(@name,'firstName[0].string')]/ancestor::div[@class = 'bloko-control-group__vertical-item']//div[@class = 'bloko-form-error bloko-form-error_entered']");
     private By lastName = By.xpath("//input[@name='lastName[0].string']");
-    private By lastNameError = By.xpath("(//div[contains(@class,'bloko-form-error bloko-form-error_entered')])[2]");
+    private By lastNameError = By.xpath("//input[@name='lastName[0].string']/ancestor::div[@class = 'bloko-column bloko-column_container bloko-column_xs-4 bloko-column_s-8 bloko-column_m-4 bloko-column_l-4']//div[@class = 'bloko-form-error bloko-form-error_entered']");
     private By city = By.xpath("//input[@data-qa='suggestCity resume-city']");
-    private By cityError = By.xpath("(//div[contains(@class,'bloko-form-error bloko-form-error_entered')])[5]");
+    private By cityError = By.xpath("//input[contains(@name,'area[0].string')]/ancestor::div[@class = 'bloko-column bloko-column_xs-4 bloko-column_s-8 bloko-column_m-4 bloko-column_l-4']//div[@class=\"bloko-form-error bloko-form-error_entered\"]");
     private By birthDay = By.xpath("//input[@data-qa='resume__birthday__day']");
     private By month = By.xpath("//select[@data-qa='resume__birthday__month-select']");
     private By birthYear = By.xpath("//input[@data-qa='resume__birthday__year']");
-    private By dateError = By.xpath("//div[@class='bloko-form-error bloko-form-error_entered'][contains(.,'Некорректная дата')]");
+    private By dateError = By.xpath("//input[@data-qa='resume__birthday__day']/ancestor::div[@class='bloko-column bloko-column_xs-4 bloko-column_s-4 bloko-column_m-4 bloko-column_l-4']//div[@class='bloko-form-error bloko-form-error_entered']");
     private By maleButton = By.xpath("//input[@name = 'gender[0].string'][@value = 'male']");
     private By femaleButton = By.xpath("//input[@name = 'gender[0].string'][@value = 'female']");
     private By noExperienceButton = By.xpath("//span[@class='bloko-radio__text'][contains(.,'Нет опыта работы')]");
@@ -46,11 +46,19 @@ public class NewResume {
     }
 
     /**
-     * проверяем на наличие ошибки при вводе имени
+     * проверяем наличие ошибки при вводе имени (invalid)
      * @return вебэлемент с ошибкой
      */
     public WebElement GetErrorInvalidName() {
        return driver.findElement(firstNameError);
+    }
+
+    /**
+     * проверяем существует ли ошибка при вводе корректного имени (valid)
+     * @return >=1 - есть ошибка
+     */
+    public int GetErrorInvalidNameSize() {
+        return driver.findElements(firstNameError).size();
     }
 
     /**
@@ -59,25 +67,40 @@ public class NewResume {
      * @return  текущая страница
      */
     public NewResume SetLastName(String name) {
-       driver.findElement(lastName).sendKeys(name);
+        driver.findElement(lastName).clear();
+        driver.findElement(lastName).sendKeys(name);
+        driver.findElement(lastName).sendKeys(Keys.TAB);
        return this;
     }
 
     /**
-     * проверка на наличие ошибки при вводе фамилии
+     * проверка наличия ошибки при вводе фамилии (invalid)
      * @return вэбэлемент с ошибкой
      */
-    public String GetErrorInvalidLastName() {
-        return driver.findElement(lastNameError).getText();
+    public WebElement GetErrorInvalidLastName() {
+        return driver.findElement(lastNameError);
+    }
+
+    /**
+     * проверяем не появится ли ошибка при правильной фамилии (valid)
+     * @return >=1 - есть ошибка
+     */
+    public int GetLastNameErrorSize() {
+        return driver.findElements(lastNameError).size();
     }
 
     public NewResume SetCity(String c) {
-       driver.findElement(city).sendKeys(c);
+        driver.findElements(city).clear();
+        driver.findElement(city).sendKeys(c);
+        driver.findElement(city).sendKeys(Keys.TAB);
        return this;
     }
 
-    public String GetCityError() {
-       return driver.findElement(cityError).getText();
+    public WebElement GetCityError() {
+       return driver.findElement(cityError);
+    }
+    public int GeetCityErrorSize() {
+        return driver.findElements(cityError).size();
     }
 
     public String GetDateError () {
