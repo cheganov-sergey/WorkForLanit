@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -24,9 +25,9 @@ public class NewResumeTest {
     @BeforeClass
     public static void SetUp () {
         System.setProperty(
-                "webdriver.chrome.driver",
-                "src\\main\\resources\\chromedriver.exe");
-        driver = new ChromeDriver();    // инициализируем драйвер
+                "webdriver.gecko.driver",
+                "src\\main\\resources\\geckodriver.exe");
+        driver = new FirefoxDriver();    // инициализируем драйвер
         driver.manage().window().maximize();
         driver.manage().
                 timeouts().
@@ -120,11 +121,11 @@ public class NewResumeTest {
      * Проверяем название города
      */
     @Test
-    @Ignore  // тест завершается с ошибкой
+  //  @Ignore  // тест завершается с ошибкой
     public void CityTest() {
-        CityTestExceptError("1Омск");
-        CityTestExceptError("");
         CityNameTest("Омск");
+        CityTestExceptError("1Омск");
+        CityTestExceptError(" ");
     }
 
     /**
@@ -134,9 +135,11 @@ public class NewResumeTest {
      @Step
       public void CityTestExceptError(String city) {
         newResume.SetCity(city);
+        newResume.waitTime(1);
+        newResume.SubmitResume().click();
+         newResume.waitTime(1);
         //wait.until(ExpectedConditions.visibilityOf(newResume.GetCityError()));
-        Assert.assertTrue(0 < newResume.GetCityErrorSize());
-        //Assert.assertTrue(newResume.GetCityError().isDisplayed());
+        Assert.assertNotEquals(0, newResume.GetCityErrorSize());
     }
 
     /**
@@ -146,6 +149,7 @@ public class NewResumeTest {
      @Step
       public void CityNameTest (String city) {
         newResume.SetCity(city);
+         newResume.waitTime(1);
         Assert.assertEquals(0, newResume.GetCityErrorSize());
     }
 
@@ -238,9 +242,9 @@ public class NewResumeTest {
           Assert.assertTrue(newResume.NoExperienceIsSelec().isSelected());
       }
 
-//    @AfterClass
-//    public static void Close() {
-//        driver.close();
-//    }
+    @AfterClass
+    public static void Close() {
+        driver.close();
+    }
 
 }

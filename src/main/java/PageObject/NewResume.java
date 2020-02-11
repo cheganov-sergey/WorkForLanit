@@ -25,7 +25,7 @@ public class NewResume {
     private By lastName = By.xpath("//input[@name='lastName[0].string']");
     private By lastNameError = By.xpath("//input[@name='lastName[0].string']/ancestor::div[@class = 'bloko-column bloko-column_container bloko-column_xs-4 bloko-column_s-8 bloko-column_m-4 bloko-column_l-4']//div[@class = 'bloko-form-error bloko-form-error_entered']");
     private By city = By.xpath("//input[@data-qa='suggestCity resume-city']");
-    private By cityError = By.xpath("//input[contains(@name,'area[0].string')]/ancestor::div[@class = 'bloko-column bloko-column_xs-4 bloko-column_s-8 bloko-column_m-4 bloko-column_l-4']//div[@class=\"bloko-form-error bloko-form-error_entered\"]");
+    private By cityError = By.xpath("//input[contains(@name,'area[0].string')]/ancestor::div[@class = 'bloko-column bloko-column_xs-4 bloko-column_s-8 bloko-column_m-4 bloko-column_l-4']//div[@class='bloko-form-error bloko-form-error_entered']");
     private By birthDay = By.xpath("//input[@data-qa='resume__birthday__day']");
     private By month = By.xpath("//select[@data-qa='resume__birthday__month-select']");
     private By birthYear = By.xpath("//input[@data-qa='resume__birthday__year']");
@@ -92,11 +92,14 @@ public class NewResume {
     }
 
     public NewResume SetCity(String c) {
-        wait2 = new WebDriverWait(driver, 5);
-        wait2.until(ExpectedConditions.visibilityOf(driver.findElement(city)));
+        //wait2 = new WebDriverWait(driver, 3);
+      //  wait2.until(ExpectedConditions.visibilityOf(driver.findElement(city)));
+        waitTime(1);
         driver.findElement(city).sendKeys(Keys.chord(Keys.CONTROL, "a"));
         driver.findElement(city).sendKeys(Keys.DELETE);
+        waitTime(1);
         driver.findElement(city).sendKeys(c);
+        waitTime(1);
         driver.findElement(headerResume).click();
        return this;
     }
@@ -185,6 +188,14 @@ public class NewResume {
 
     public WebElement SubmitResume() {
         return driver.findElement(submitResume);
+    }
+
+    public void waitTime(Integer sec) {
+        try {
+            Thread.sleep(sec * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
