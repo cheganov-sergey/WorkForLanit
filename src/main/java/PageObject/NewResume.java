@@ -4,7 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * Класс страницы создания нового резюме
@@ -12,6 +14,7 @@ import org.openqa.selenium.support.ui.Select;
 public class NewResume {
 
     private WebDriver driver;
+    private WebDriverWait wait2;
 
     public NewResume(WebDriver driver) {
         this.driver = driver;
@@ -27,11 +30,17 @@ public class NewResume {
     private By month = By.xpath("//select[@data-qa='resume__birthday__month-select']");
     private By birthYear = By.xpath("//input[@data-qa='resume__birthday__year']");
     private By dateError = By.xpath("//input[@data-qa='resume__birthday__day']/ancestor::div[@class='bloko-column bloko-column_xs-4 bloko-column_s-4 bloko-column_m-4 bloko-column_l-4']//div[@class='bloko-form-error bloko-form-error_entered']");
-    private By maleButton = By.xpath("//input[@name = 'gender[0].string'][@value = 'male']");
-    private By femaleButton = By.xpath("//input[@name = 'gender[0].string'][@value = 'female']");
+    private By maleButton = By.xpath("//label[@data-qa='resume-gender-male']/span");
+    private By maleButtonIsSelect = By.xpath("//label[@data-qa='resume-gender-male']/input");
+    private By femaleButton = By.xpath("//label[@data-qa='resume-gender-female']/span");
+    private By femaleButtonisSelect = By.xpath("//label[@data-qa='resume-gender-female']/input");
     private By noExperienceButton = By.xpath("//span[@class='bloko-radio__text'][contains(.,'Нет опыта работы')]");
+    private By noExperienceButtonIsSelect = By.xpath("//label[@data-qa='without-experience']/input");
     private By yesExperienceButton = By.xpath("//span[@class='bloko-radio__text'][contains(.,'Есть опыт работы')]");
-    private By ExperiencError = By.xpath("(//div[@class='bloko-form-error bloko-form-error_entered'])[1]");
+    private By yesExperienceButtonIsSelect = By.xpath("//label[@data-qa='with-experience']/input");
+    private By experinceError = By.xpath("//div[@class='bloko-column bloko-column_xs-0 bloko-column_s-8 bloko-column_m-6 bloko-column_l-6']/div[@class='bloko-form-error bloko-form-error_entered']");
+    private By headerResume = By.xpath("//h1[contains(@data-qa,'resume-short-header')]");
+    private By submitResume = By.xpath("//button[contains(@data-qa,'resume-submit')]");
 
     /**
      * задаем имя
@@ -73,13 +82,6 @@ public class NewResume {
        return this;
     }
 
-    /**
-     * проверка наличия ошибки при вводе фамилии (invalid)
-     * @return вэбэлемент с ошибкой
-     */
-    public WebElement GetErrorInvalidLastName() {
-        return driver.findElement(lastNameError);
-    }
 
     /**
      * проверяем не появится ли ошибка при правильной фамилии (valid)
@@ -90,41 +92,54 @@ public class NewResume {
     }
 
     public NewResume SetCity(String c) {
-        driver.findElements(city).clear();
+        wait2 = new WebDriverWait(driver, 5);
+        wait2.until(ExpectedConditions.visibilityOf(driver.findElement(city)));
+        driver.findElement(city).sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        driver.findElement(city).sendKeys(Keys.DELETE);
         driver.findElement(city).sendKeys(c);
-        driver.findElement(city).sendKeys(Keys.TAB);
+        driver.findElement(headerResume).click();
        return this;
     }
 
-    public WebElement GetCityError() {
-       return driver.findElement(cityError);
-    }
-    public int GeetCityErrorSize() {
+    public int GetCityErrorSize() {
         return driver.findElements(cityError).size();
     }
 
-    public String GetDateError () {
-        return driver.findElement(dateError).getText();
+    public int GetDateError () {
+        return driver.findElements(dateError).size();
     }
 
-    public void MaleRadioClick() {
-       driver.findElement(maleButton).click();
+    public WebElement MaleRadio() {
+       return driver.findElement(maleButton);
     }
 
-    public void FemaleRadioClick() {
-        driver.findElement(femaleButton).click();
+    public WebElement MaleRadioIsSelect() {
+        return driver.findElement(maleButtonIsSelect);
     }
 
-    public void NoExperienceButton() {
-       driver.findElement(noExperienceButton).click();
+    public WebElement FemaleRadio() {
+        return driver.findElement(femaleButton);
+    }
+    public WebElement FemeleRadioIsSelect() {
+        return driver.findElement(femaleButtonisSelect);
     }
 
-    public void YesExperienceButton() {
-        driver.findElement(yesExperienceButton).click();
+    public WebElement NoExperienceButton() {
+       return driver.findElement(noExperienceButton);
+    }
+    public WebElement NoExperienceIsSelec() {
+        return driver.findElement(noExperienceButtonIsSelect);
     }
 
-    public String EcpereanceError() {
-       return driver.findElement(ExperiencError).getText();
+    public WebElement YesExperienceButton() {
+        return driver.findElement(yesExperienceButton);
+    }
+    public WebElement YesExperienceSelect() {
+        return driver.findElement(yesExperienceButtonIsSelect);
+    }
+
+    public int ExperienceError() {
+       return driver.findElements(experinceError).size();
     }
 
 
@@ -138,21 +153,38 @@ public class NewResume {
     public NewResume InputDate (int dd, int mm, int yyyy) {
 
         WebElement element = driver.findElement(birthDay);
-        element.clear();
+        element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        element.sendKeys(Keys.DELETE);
         element.sendKeys("" + dd);
-        element.sendKeys(Keys.TAB);
 
-        if ((mm >= 0) & (mm <= 12)) {
+         if ((mm >= 0) & (mm <= 12)) {
             Select select = new Select(driver.findElement(month));
             select.selectByIndex(mm);
         }
 
         element = driver.findElement(birthYear);
-        element.clear();
+        element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        element.sendKeys(Keys.DELETE);
         element.sendKeys("" + yyyy);
-        element.sendKeys(Keys.TAB);
+        driver.findElement(headerResume).click();
 
-        return new NewResume(driver);
+        return this;
+    }
+    public NewResume InoutDateString (String dd, String yyyy) {
+        driver.findElement(birthDay).sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        driver.findElement(birthDay).sendKeys(Keys.DELETE);
+        driver.findElement(birthDay).sendKeys(dd);
+
+        driver.findElement(birthYear).sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        driver.findElement(birthYear).sendKeys(Keys.DELETE);
+        driver.findElement(birthYear).sendKeys(yyyy);
+
+        driver.findElement(headerResume).click();
+        return this;
+    }
+
+    public WebElement SubmitResume() {
+        return driver.findElement(submitResume);
     }
 
 
