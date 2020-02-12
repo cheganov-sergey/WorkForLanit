@@ -19,7 +19,7 @@ public class NewResumeTest {
      * Ностройка среды тестирования;
      * авторизация.
      */
-    @Description(useJavaDoc = true)
+    @Description(value = "Тестируем создание нового резюме")
     @BeforeClass
     public static void SetUp () {
         System.setProperty(
