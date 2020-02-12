@@ -44,7 +44,7 @@ public class NewResumeTest {
     /**
      * проверям Имя
      */
-    @Description(useJavaDoc = true)
+    @Description(value = "Проверяем корректность ввода Имени")
     @Test
     public void FirstNameTest() {
         FirstNameExceptError("1Иван");
@@ -79,7 +79,7 @@ public class NewResumeTest {
     /**
      * Проверяем фамилию
      */
-    @Description(value = "Проверям кооректность ввода имени")
+    @Description(value = "Проверям кооректность ввода Фамилии")
     @Test
     public void LastNameTest() {
         LastNameExpectError("1Иванов");
