@@ -1,15 +1,9 @@
 import PageObject.*;
+import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import org.junit.*;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -18,10 +12,14 @@ import java.util.concurrent.TimeUnit;
 public class NewResumeTest {
 
     private static WebDriver driver;
-    private static MainPage mainPage;
+    private static HomePage homePage;
     private static NewResume newResume;
-    private static WebDriverWait wait;
 
+    /**
+     * Ностройка среды тестирования;
+     * авторизация.
+     */
+    @Description(useJavaDoc = true)
     @BeforeClass
     public static void SetUp () {
         System.setProperty(
@@ -33,23 +31,22 @@ public class NewResumeTest {
                 timeouts().
                 implicitlyWait(5, TimeUnit.SECONDS);
         driver.get("https://ufa.hh.ru");
-        mainPage = new MainPage(driver);
+        homePage = new HomePage(driver);
 
-        LoginPage loginPage = mainPage.LoginFromMainPage();
+        LoginPage loginPage = homePage.LoginFromMainPage();
         loginPage.inputUserName("89872504965");
         loginPage.inputPasswod("Finland06");
         AccountMainPage accountMainPage = loginPage.LogIn();
         MyResume myResume = accountMainPage.MyResumeClick();
         newResume = myResume.CreateResume();
-        wait =new WebDriverWait(driver, 3);
     }
 
     /**
      * проверям Имя
      */
+    @Description(useJavaDoc = true)
     @Test
     public void FirstNameTest() {
-        //FirstNameExceptError(""); // сайт не выводит ошибку
         FirstNameExceptError("1Иван");
         FirstNameExceptError("Иван-");
         FirstNameExceptError("-Иван");
@@ -62,31 +59,31 @@ public class NewResumeTest {
      * @param name Имя
      */
     @Step
+    @Description(useJavaDoc = true)
     public void FirstNameExceptError (String name) {
             newResume.SetFirstName(name);
             Assert.assertTrue(0 <  newResume.GetErrorInvalidNameSize());
-//            wait.until(ExpectedConditions.visibilityOf(newResume.GetErrorInvalidName()));
-//            Assert.assertTrue(newResume.GetErrorInvalidName().isDisplayed());
     }
 
     /**
      * Валидные данные
      * @param name Имя
      */
+    @Description(useJavaDoc = true)
     @Step
     public void FirstName (String name) {
             newResume.SetFirstName(name);
-            //wait.until(ExpectedConditions.visibilityOf(newResume.GetErrorInvalidName()));
             Assert.assertEquals(0, newResume.GetErrorInvalidNameSize());
     }
 
     /**
      * Проверяем фамилию
      */
+    @Description(value = "Проверям кооректность ввода имени")
     @Test
     public void LastNameTest() {
         LastNameExpectError("1Иванов");
-       // LastNameExpectError("");  // сайт не выводит ошибку
+        LastNameExpectError(" ");
         LastNameExpectError("Иванов1");
         LastNameExpectError("Иванов-");
         LastNameExpectError("-Иванов");
@@ -98,6 +95,7 @@ public class NewResumeTest {
      * - Ожидаем ошибку invalid
      * @param name - фамилия (только бкувы и -
      */
+    @Description(value = "Ввод не верного формата")
     @Step
     public void LastNameExpectError (String name) {
         newResume.SetLastName(name);
@@ -110,6 +108,7 @@ public class NewResumeTest {
      * проверяем фамилию (valid)
      * @param name - фамилия (только бкувы и -
      */
+    @Description(value = "Ввод верного формата")
     @Step
     public void LastName(String name) {
         newResume.SetLastName(name);
@@ -120,8 +119,8 @@ public class NewResumeTest {
     /**
      * Проверяем название города
      */
+    @Description(useJavaDoc = true)
     @Test
-  //  @Ignore  // тест завершается с ошибкой
     public void CityTest() {
         CityNameTest("Омск");
         CityTestExceptError("1Омск");
@@ -132,13 +131,13 @@ public class NewResumeTest {
      * горд invalid
      * @param city название города
      */
+     @Description(useJavaDoc = true)
      @Step
       public void CityTestExceptError(String city) {
         newResume.SetCity(city);
-        newResume.waitTime(1);
+       // newResume.waitTime(1);
         newResume.SubmitResume().click();
-         newResume.waitTime(1);
-        //wait.until(ExpectedConditions.visibilityOf(newResume.GetCityError()));
+        // newResume.waitTime(1);
         Assert.assertNotEquals(0, newResume.GetCityErrorSize());
     }
 
@@ -146,6 +145,7 @@ public class NewResumeTest {
      * город valid
      * @param city название города
      */
+     @Description(useJavaDoc = true)
      @Step
       public void CityNameTest (String city) {
         newResume.SetCity(city);
@@ -156,6 +156,7 @@ public class NewResumeTest {
     /**
      * Тест ввода даты рождения
      */
+    @Description(useJavaDoc = true)
     @Test
     public void DataTest() {
         SetBirthDateValid(28, 1, 1989);
@@ -175,6 +176,7 @@ public class NewResumeTest {
      * @param mm - месяц
      * @param yyyy - год
      */
+     @Description(useJavaDoc = true)
      @Step
       public void SetBirthDateValid (int dd, int mm, int yyyy) {
         newResume.InputDate(dd, mm, yyyy);
@@ -187,6 +189,7 @@ public class NewResumeTest {
      * @param mm - месяц
      * @param yyyy - год
      */
+    @Description(useJavaDoc = true)
      @Step
       public void SetBirthDateInvalid (int dd, int mm, int yyyy) {
         newResume.InputDate(dd, mm, yyyy);
@@ -198,50 +201,87 @@ public class NewResumeTest {
      * @param dd - день
      * @param yyyy - год
      */
+      @Description(useJavaDoc = true)
       @Step
-       public void SetTextDate(String dd, String yyyy) {
-        newResume.InoutDateString(dd, yyyy);
+      public void SetTextDate(String dd, String yyyy) {
+        newResume.InputDateString(dd, yyyy);
         Assert.assertTrue(0 < newResume.GetDateError());
     }
 
+    /**
+     * РадиоБатон - переключатель пола М/Ж
+     */
+    @Description(useJavaDoc = true)
     @Test
     public void SexButtonTest() {
         FemaleTest();
         MaleTest();
     }
+
+    /**
+     * выбираем женский пол
+     */
+     @Description(useJavaDoc = true)
      @Step
       public void FemaleTest() {
         newResume.FemaleRadio().click();
         Assert.assertTrue(newResume.FemeleRadioIsSelect().isSelected());
     }
+
+    /**
+     * Выбираем мужской пол
+     */
+     @Description(useJavaDoc = true)
      @Step
       public void MaleTest() {
         newResume.MaleRadio().click();
         Assert.assertTrue(newResume.MaleRadioIsSelect().isSelected());
     }
 
+    /**
+     * РадиоБатон - выбор имеющегося опыта работы
+     */
+    @Description(useJavaDoc = true)
     @Test
     public void ExperienceTest() {
         ExperienceError();
         YesExperience();
         NoExperience();
     }
+
+    /**
+     * Ни один переключатель не выбран, ждем ошибку
+     */
+      @Description(useJavaDoc = true)
       @Step
       public void ExperienceError(){
           newResume.SubmitResume().click();
          Assert.assertNotEquals(0, newResume.ExperienceError());
       }
-      @Step
+
+    /**
+     * выбран - Есть опыт работы
+     */
+    @Description(useJavaDoc = true)
+    @Step
         public void YesExperience() {
           newResume.YesExperienceButton().click();
           Assert.assertTrue(newResume.YesExperienceSelect().isSelected());
       }
-      @Step
+
+    /**
+     * выбран - Нет опыта работы
+     */
+    @Description(useJavaDoc = true)
+    @Step
       public void NoExperience() {
           newResume.NoExperienceButton().click();
           Assert.assertTrue(newResume.NoExperienceIsSelec().isSelected());
       }
 
+    /**
+     * закрываем драйвер
+     */
     @AfterClass
     public static void Close() {
         driver.close();

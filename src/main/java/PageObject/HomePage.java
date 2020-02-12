@@ -7,11 +7,11 @@ import org.openqa.selenium.WebDriver;
 /**
  * Шлавная страница hh.ru
  */
-public class MainPage {
+public class HomePage {
 
     private WebDriver driver;
 
-    public MainPage(WebDriver driver) {
+    public HomePage(WebDriver driver) {
         this.driver = driver;
     }
 

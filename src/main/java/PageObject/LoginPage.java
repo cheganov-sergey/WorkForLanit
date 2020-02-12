@@ -14,7 +14,7 @@ public class LoginPage {
         this.driver = driver;
     }
 
-    public LoginPage LoginInvalid(String name, String pass) {
+    public  LoginPage LoginInvalid(String name, String pass) {
         inputUserName(name);
         inputPasswod(pass);
         driver.findElement(singIn).click();

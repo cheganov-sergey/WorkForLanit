@@ -4,9 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * Класс страницы создания нового резюме
@@ -14,12 +12,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class NewResume {
 
     private WebDriver driver;
-    private WebDriverWait wait2;
 
     public NewResume(WebDriver driver) {
         this.driver = driver;
     }
 
+    /**
+     * Описываем все элементы страницы, добавляем их в поля класса.
+     */
     private By firstName = By.xpath("//input[@name='firstName[0].string']");
     private By firstNameError = By.xpath("//input[contains(@name,'firstName[0].string')]/ancestor::div[@class = 'bloko-control-group__vertical-item']//div[@class = 'bloko-form-error bloko-form-error_entered']");
     private By lastName = By.xpath("//input[@name='lastName[0].string']");
@@ -55,14 +55,6 @@ public class NewResume {
     }
 
     /**
-     * проверяем наличие ошибки при вводе имени (invalid)
-     * @return вебэлемент с ошибкой
-     */
-    public WebElement GetErrorInvalidName() {
-       return driver.findElement(firstNameError);
-    }
-
-    /**
      * проверяем существует ли ошибка при вводе корректного имени (valid)
      * @return >=1 - есть ошибка
      */
@@ -82,7 +74,6 @@ public class NewResume {
        return this;
     }
 
-
     /**
      * проверяем не появится ли ошибка при правильной фамилии (valid)
      * @return >=1 - есть ошибка
@@ -92,66 +83,110 @@ public class NewResume {
     }
 
     public NewResume SetCity(String c) {
-        //wait2 = new WebDriverWait(driver, 3);
-      //  wait2.until(ExpectedConditions.visibilityOf(driver.findElement(city)));
-        waitTime(1);
+        //waitTime(1);
         driver.findElement(city).sendKeys(Keys.chord(Keys.CONTROL, "a"));
         driver.findElement(city).sendKeys(Keys.DELETE);
-        waitTime(1);
+        //waitTime(1);
         driver.findElement(city).sendKeys(c);
         waitTime(1);
         driver.findElement(headerResume).click();
        return this;
     }
 
+    /**
+     * смотрим есть ли ошибка при невверном вооде Города
+     * @return количество ошибок ( 0 - нет)
+     */
     public int GetCityErrorSize() {
         return driver.findElements(cityError).size();
     }
 
+    /**
+     * смотрим есть ли ошибка при невверном вводе даты
+     * @return количество ошибок
+     */
     public int GetDateError () {
         return driver.findElements(dateError).size();
     }
 
+    /**
+     * элемент для нажатия РадиоБатона пол: Мужской
+     * @return  ВебЭлемент
+     */
     public WebElement MaleRadio() {
        return driver.findElement(maleButton);
     }
 
+    /**
+     * элемент для проверки выбран ли радиоБатон пол:Мужской
+     * @return  ВебЭлемент
+     */
     public WebElement MaleRadioIsSelect() {
         return driver.findElement(maleButtonIsSelect);
     }
 
+    /**
+     * элемент для нажатия РадиоБатона пол: Женский
+     * @return  ВебЭлемент
+     */
     public WebElement FemaleRadio() {
         return driver.findElement(femaleButton);
     }
+
+    /**
+     * элемент для проверки выбран ли радиоБатон пол:Женский
+     * @return  ВебЭлемент
+     */
     public WebElement FemeleRadioIsSelect() {
         return driver.findElement(femaleButtonisSelect);
     }
 
+    /**
+     * элемент радиобатон - Нет опыта работы
+     * @return  ВебЭлемент
+     */
     public WebElement NoExperienceButton() {
        return driver.findElement(noExperienceButton);
     }
+
+    /**
+     * элемент проверки нажат ли радиобатон - Нет опыта работы
+     * @return  ВебЭлемент
+     */
     public WebElement NoExperienceIsSelec() {
         return driver.findElement(noExperienceButtonIsSelect);
     }
 
+    /**
+     * элемент радиобатон - Есть опыт работы
+     * @return  ВебЭлемент
+     */
     public WebElement YesExperienceButton() {
         return driver.findElement(yesExperienceButton);
     }
+
+    /**
+     * элемент проверки нажат ли радиобатон - Есть опыт работы
+     * @return  ВебЭлемент
+     */
     public WebElement YesExperienceSelect() {
         return driver.findElement(yesExperienceButtonIsSelect);
     }
 
+    /**
+     * проверка на ошибку при отсутсвии выбора радиоБАтонов Есть/Нет опыта работы
+     * @return количество ошибок (0 - нет)
+     */
     public int ExperienceError() {
        return driver.findElements(experinceError).size();
     }
-
 
     /**
      * Метод устанвоки даты
      * @param dd - день родения
      * @param mm - месяц: 0 - пусто значение, 1-12 месяцы от января по декабрь.
      * @param yyyy - год рождения четырехзначный
-     * @return - новая текущая страница страница
+     * @return - текущая страница страница
      */
     public NewResume InputDate (int dd, int mm, int yyyy) {
 
@@ -173,7 +208,14 @@ public class NewResume {
 
         return this;
     }
-    public NewResume InoutDateString (String dd, String yyyy) {
+
+    /**
+     * Проверка на ввод текста в поле Даты рождения
+     * @param dd - день
+     * @param yyyy  - год
+     * @return  текущая страница страница
+     */
+    public NewResume InputDateString (String dd, String yyyy) {
         driver.findElement(birthDay).sendKeys(Keys.chord(Keys.CONTROL, "a"));
         driver.findElement(birthDay).sendKeys(Keys.DELETE);
         driver.findElement(birthDay).sendKeys(dd);
@@ -186,10 +228,18 @@ public class NewResume {
         return this;
     }
 
+    /**
+     * Кнопка "Создать и отправить резюме"
+     * @return ВебЭлемент
+     */
     public WebElement SubmitResume() {
         return driver.findElement(submitResume);
     }
 
+    /**
+     * ожидание
+     * @param sec секунд
+     */
     public void waitTime(Integer sec) {
         try {
             Thread.sleep(sec * 1000);
