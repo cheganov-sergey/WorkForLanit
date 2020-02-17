@@ -126,7 +126,7 @@ public class NewResumeTest {
     /**
      * Проверяем название города
      */
-    @Description (useJavaDoc = true)
+    @Description (value = "Проверка поля Город")
     @Test
     @DisplayName ("Вводим город")
     public void CityTest() {
@@ -164,7 +164,7 @@ public class NewResumeTest {
     /**
      * Тест ввода даты рождения
      */
-    @Description(useJavaDoc = true)
+    @Description(value = "Проверка поля Дата рождения")
     @Test
     @DisplayName("Вводим дату рождения")
     public void DataTest() {
@@ -220,7 +220,7 @@ public class NewResumeTest {
     /**
      * РадиоБатон - переключатель пола М/Ж
      */
-    @Description (useJavaDoc = true)
+    @Description (value = "Проверка кнопок Пол")
     @Test
     @DisplayName ("Выбираем пол")
     public void SexButtonTest() {
@@ -251,7 +251,7 @@ public class NewResumeTest {
     /**
      * РадиоБатон - выбор имеющегося опыта работы
      */
-    @Description(useJavaDoc = true)
+    @Description(value = "проверка кнопок Опыт работы")
     @Test
     @DisplayName("Выбираем опыт работы")
     public void ExperienceTest() {
