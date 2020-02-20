@@ -5,8 +5,6 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Wait;
-
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -42,7 +40,6 @@ public class NewResumeTest {
         LoginPage loginPage = homePage.LoginFromMainPage(); //страница ввода авторизациия
         loginPage.inputUserName("89872504965");
         loginPage.inputPasswod("Finland06");
-        WaitTaim(2); // ждем, как будто мы не роботы
         AccountMainPage accountMainPage = loginPage.LogIn();  // личный кабинет
         MyResume myResume = accountMainPage.MyResumeClick();  // переходим в "Мои резюме"
         newResume = myResume.CreateResume();  // создаем новое резюме
@@ -298,12 +295,5 @@ public class NewResumeTest {
         driver.close();
     }
 
-    public static void WaitTaim (int sec) {
-        try {
-            Thread.sleep(1000 * sec);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
 }
