@@ -21,7 +21,4 @@ public class AccountMainPage {
         return new MyResume(driver);
     }
 
-    public String MyResumeGeText() {
-        return driver.findElement(myResume).getText();
-    }
 }

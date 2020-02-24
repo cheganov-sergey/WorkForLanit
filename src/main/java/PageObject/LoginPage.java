@@ -14,12 +14,6 @@ public class LoginPage {
         this.driver = driver;
     }
 
-    public  LoginPage LoginInvalid(String name, String pass) {
-        inputUserName(name);
-        inputPasswod(pass);
-        driver.findElement(singIn).click();
-        return this;
-    }
 
     private By userName = By.xpath("//input[@data-qa='login-input-username']");
     private By password = By.xpath("//input[@data-qa='login-input-password']");
@@ -39,10 +33,6 @@ public class LoginPage {
     public AccountMainPage LogIn() {
         driver.findElement(singIn).click();
         return new AccountMainPage(driver);
-    }
-
-    public String GetErrorUserName() {
-        return driver.findElement(errorName).getText();
     }
 
 

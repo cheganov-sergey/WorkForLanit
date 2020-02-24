@@ -14,7 +14,6 @@ public class MyResume {
         this.driver = driver;
     }
 
-    private By headText = By.xpath("//h1[@data-qa='page-title'][contains(.,'Мои резюме')]");
     private By createResume = By.xpath("//a[@class='bloko-button bloko-button_stretched'][contains(.,'Создать резюме')]");
 
     public NewResume CreateResume() {
