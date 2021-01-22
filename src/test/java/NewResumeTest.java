@@ -16,6 +16,8 @@ public class NewResumeTest {
     private static WebDriver driver;
     private static HomePage homePage;
     private static NewResume newResume;
+    private static String LOGIN = "login";
+    private static String PASS = "pass";
 
     /**
      * Ностройка среды тестирования;
@@ -38,8 +40,8 @@ public class NewResumeTest {
 
         // Авторизация:
         LoginPage loginPage = homePage.LoginFromMainPage(); //страница ввода авторизациия
-        loginPage.inputUserName("89872504965");
-        loginPage.inputPasswod("Finland06");
+        loginPage.inputUserName(LOGIN);
+        loginPage.inputPasswod(PASS);
         AccountMainPage accountMainPage = loginPage.LogIn();  // личный кабинет
         MyResume myResume = accountMainPage.MyResumeClick();  // переходим в "Мои резюме"
         newResume = myResume.CreateResume();  // создаем новое резюме

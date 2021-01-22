@@ -3,7 +3,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 /**
- * Шлавная страница hh.ru
+ * Главная страница hh.ru
  */
 public class HomePage {
 
